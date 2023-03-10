@@ -1,0 +1,24 @@
+#######################################################################
+###################### distancematrix API Key #########################
+#######################################################################
+
+
+import requests
+
+API_KEY = '<YOUR_API_KEY>'
+
+
+ORIGINS = 'Automall West, Level3/322 Moggil Rd, Indooroopilly QLD 4068'
+DESTINATIONS = '41 Lakes Enterence Drive, 4300|66 Pilliga St, 4014|3 Lowood Place, 4055'
+
+url = f'https://maps.googleapis.com/maps/api/distancematrix/json?origins={ORIGINS}&destinations={DESTINATIONS}&mode={{MODE}}&key={API_KEY}'
+headers = {}
+
+def lookup (mode):
+  request_url = url.format(MODE=mode)
+  response = requests.request("GET", request_url, headers=headers)
+  print(response.text)
+  distance = response.json().get('rows')[0].get('elements')[0].get('distance').get('text')
+  duration = response.json().get('rows')[0].get('elements')[0].get('duration').get('text')
+
+lookup('driving')
